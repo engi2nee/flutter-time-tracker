@@ -14,6 +14,8 @@ abstract class AuthBase {
   Future<User> signInAnonymously();
   Stream<User> get onAuthStateChanged;
   Future<User> signInWithGoogle();
+  Future<User> createUserWithEmailAndPassword(String email, String password);
+  Future<User> signInWithEmailAndPassword(String email, String password);
 }
 
 class Auth implements AuthBase {
@@ -43,11 +45,25 @@ class Auth implements AuthBase {
   }
 
   @override
+  Future<User> signInWithEmailAndPassword(String email, String password) async {
+    final authResult = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFireBase(authResult.user);
+  }
+
+  @override
+  Future<User> createUserWithEmailAndPassword(
+      String email, String password) async {
+    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFireBase(authResult.user);
+  }
+
+  @override
   Future<User> signInWithGoogle() async {
     final googleAccount = await _googleSingIn.signIn();
     if (googleAccount != null) {
-      final googleAuth =
-          await googleAccount.authentication;
+      final googleAuth = await googleAccount.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         final authResult = await _firebaseAuth.signInWithCredential(
             GoogleAuthProvider.getCredential(
@@ -56,7 +72,8 @@ class Auth implements AuthBase {
         return _userFromFireBase(authResult.user);
       } else {
         throw PlatformException(
-            code: 'Error_Missing_Google_Auth', message: "Missing google auth token");
+            code: 'Error_Missing_Google_Auth',
+            message: "Missing google auth token");
       }
     } else {
       throw PlatformException(
