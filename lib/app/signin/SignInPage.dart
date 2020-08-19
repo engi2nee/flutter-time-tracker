@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/app/signin/EmailSignInPage.dart';
 import 'package:time_tracker_flutter/app/signin/SocialSignInButton.dart';
 import 'package:time_tracker_flutter/app/signin/signInButton.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({@required this.auth});
-
-  final AuthBase auth;
-
-  Future<void> _signInAnonymously() async {
+  Future<void> _signInAnonymously(BuildContext context) async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     try {
       await auth.signInAnonymously();
     } catch (e) {
@@ -17,7 +15,8 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     try {
       await auth.signInWithGoogle();
     } catch (e) {
@@ -26,11 +25,10 @@ class SignInPage extends StatelessWidget {
   }
 
   void _signInWithEmail(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => EmailSignInPage(
-        auth: auth,
-      ),
+      builder: (context) => EmailSignInPage(),
     ));
   }
 
@@ -64,9 +62,7 @@ class SignInPage extends StatelessWidget {
             text: 'Sign in with Google',
             color: Colors.white,
             textColor: Colors.black87,
-            onPressed: () {
-              _signInWithGoogle();
-            },
+            onPressed: () => _signInWithGoogle(context),
           ),
           SizedBox(height: 8.0),
           SignInButton(
@@ -86,9 +82,7 @@ class SignInPage extends StatelessWidget {
             text: 'Go anonymous',
             textColor: Colors.black87,
             color: Colors.lime[300],
-            onPressed: () {
-              _signInAnonymously();
-            },
+            onPressed: () => _signInAnonymously(context),
           ),
         ],
       ),

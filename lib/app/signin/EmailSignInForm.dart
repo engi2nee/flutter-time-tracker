@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/widgets/FormSubmitButton.dart';
 import 'package:time_tracker_flutter/widgets/PlatformAlertDialog.dart';
@@ -8,8 +9,6 @@ import 'Validators.dart';
 enum EmailSignInFormType { SIGN_IN, REGISTER }
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
-  EmailSignInForm({@required this.auth});
-  final AuthBase auth;
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -33,14 +32,20 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     });
 
     try {
+      final auth = Provider.of<AuthBase>(context, listen: false);
+
       if (_formType == EmailSignInFormType.SIGN_IN) {
-        await widget.auth.signInWithEmailAndPassword(_email, _password);
+        await auth.signInWithEmailAndPassword(_email, _password);
       } else {
-        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
     } catch (e) {
-      PlatformAlertDialog(title: "Sign in failed", content: e.toString(), defaultActionText: 'ok').show(context);
+      PlatformAlertDialog(
+              title: "Sign in failed",
+              content: e.toString(),
+              defaultActionText: 'ok')
+          .show(context);
     } finally {
       setState(() {
         _isLoading = false;
