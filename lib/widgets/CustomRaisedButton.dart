@@ -20,6 +20,7 @@ class CustomRaisedButton extends StatelessWidget {
     return SizedBox(
       height: height,
       child: RaisedButton(
+        disabledColor: color,
         child: child,
         color: color,
         shape: RoundedRectangleBorder(
