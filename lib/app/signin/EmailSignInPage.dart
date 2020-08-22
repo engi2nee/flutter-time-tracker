@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
+import 'package:time_tracker_flutter/app/signin/EmailSignInFormBlocBased.dart';
 
-import 'EmailSignInForm.dart';
+import 'EmailSignInFormStateful.dart';
 
 class EmailSignInPage extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class EmailSignInPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Card(child: EmailSignInForm()),
+          child: Card(child: EmailSignInFormBlocBased.create(context)),
         ),
       ),
       backgroundColor: Colors.grey[200],
