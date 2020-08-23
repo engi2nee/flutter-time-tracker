@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/app/signin/EmailSignInFormBlocBased.dart';
+import 'package:time_tracker_flutter/app/signin/EmailSignInFormChangeNotifier.dart';
 
 import 'EmailSignInFormStateful.dart';
 
@@ -15,7 +16,7 @@ class EmailSignInPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Card(child: EmailSignInFormBlocBased.create(context)),
+          child: Card(child: EmailSignInFormChangeNotifier.create(context)),
         ),
       ),
       backgroundColor: Colors.grey[200],
