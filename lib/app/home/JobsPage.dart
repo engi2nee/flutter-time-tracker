@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/widgets/PlatformAlertDialog.dart';
 
-class HomePage extends StatelessWidget {
+class JobsPage extends StatelessWidget {
 
   Future<void> _signOut(BuildContext context) async {
     try {
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HomePage"),
+        title: Text("Jobs"),
         actions: [
           FlatButton(
             child: Text(

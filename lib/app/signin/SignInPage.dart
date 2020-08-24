@@ -21,7 +21,7 @@ class SignInPage extends StatelessWidget {
       create: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
         builder: (_, isLoading, __) => Provider<SignInManager>(
-          create: (context) => SignInManager(auth: auth),
+          create: (context) => SignInManager(isLoading: isLoading,auth: auth),
           child: Consumer<SignInManager>(
               builder: (context, signInManager, _) => SignInPage(
                     signInManager: signInManager,
