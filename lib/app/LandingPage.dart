@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
+import 'package:time_tracker_flutter/app/services/Database.dart';
 import 'package:time_tracker_flutter/app/signin/SignInPage.dart';
 
 import 'home/JobsPage.dart';
@@ -18,7 +19,9 @@ class LandingPage extends StatelessWidget {
             if (user == null) {
               return SignInPage.create(context);
             } else {
-              return JobsPage();
+              return Provider<Database>(
+                  create: (_) => FireStoreDatabase(uid: user.uid),
+                  child: JobsPage());
             }
           } else {
             return Scaffold(
