@@ -8,6 +8,8 @@ import 'package:time_tracker_flutter/app/services/Database.dart';
 import 'package:time_tracker_flutter/widgets/PlatformAlertDialog.dart';
 import 'package:time_tracker_flutter/widgets/PlatformExceptionAlertDialog.dart';
 
+import 'JobListTile.dart';
+
 class JobsPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     try {
@@ -60,7 +62,12 @@ class JobsPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final jobs = snapshot.data;
-          final children = jobs.map((job) => Text(job.name)).toList();
+          final children = jobs
+              .map((job) => JobListTile(
+                    job: job,
+                    onTap: () {},
+                  ))
+              .toList();
           return ListView(children: children);
         }
         if (snapshot.hasError) {

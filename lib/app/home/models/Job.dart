@@ -11,10 +11,7 @@ class Job {
     }
     final String name = data['name'];
     final int ratePerHour = data['ratePerHour'];
-    return Job(
-        name: name,
-        ratePerHour: ratePerHour
-    );
+    return Job(name: name, ratePerHour: ratePerHour);
   }
 
   Map<String, dynamic> toMap() {
