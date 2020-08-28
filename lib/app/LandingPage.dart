@@ -4,7 +4,7 @@ import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/app/services/Database.dart';
 import 'package:time_tracker_flutter/app/signin/SignInPage.dart';
 
-import 'home/JobsPage.dart';
+import 'home/jobs/JobsPage.dart';
 
 class LandingPage extends StatelessWidget {
   @override

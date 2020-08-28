@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker_flutter/app/home/jobs/AddJobPage.dart';
 import 'package:time_tracker_flutter/app/home/models/Job.dart';
 import 'package:time_tracker_flutter/app/services/Auth.dart';
 import 'package:time_tracker_flutter/app/services/Database.dart';
@@ -29,18 +30,6 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  Future<void> _createJob(BuildContext context) async {
-    try {
-      final database = Provider.of<Database>(context, listen: false);
-      await database.createJob(Job(
-        name: 'Blogging',
-        ratePerHour: 29,
-      ));
-    } on PlatformException catch (e) {
-      PlatformExceptionAlertDialog(title: "Operation Failed", exception: e).show(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +47,7 @@ class JobsPage extends StatelessWidget {
       ),
       body: _buildContents(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _createJob(context),
+        onPressed: () => AddJobPage.show(context),
         child: Icon(Icons.add),
       ),
     );
@@ -74,7 +63,7 @@ class JobsPage extends StatelessWidget {
           final children = jobs.map((job) => Text(job.name)).toList();
           return ListView(children: children);
         }
-        if(snapshot.hasError){
+        if (snapshot.hasError) {
           return Center(child: Text('Some error happened'));
         }
         return Center(child: CircularProgressIndicator());
