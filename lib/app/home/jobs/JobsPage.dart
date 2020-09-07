@@ -7,6 +7,7 @@ import 'package:time_tracker_flutter/widgets/PlatformAlertDialog.dart';
 
 import 'EditJobPage.dart';
 import 'JobListTile.dart';
+import 'ListItemBuilder.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
@@ -58,20 +59,13 @@ class JobsPage extends StatelessWidget {
     return StreamBuilder<List<Job>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final jobs = snapshot.data;
-          final children = jobs
-              .map((job) => JobListTile(
-                    job: job,
-                    onTap: () => EditJobPage.show(context, job: job),
-                  ))
-              .toList();
-          return ListView(children: children);
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Some error happened'));
-        }
-        return Center(child: CircularProgressIndicator());
+        return ListItemsBuilder<Job>(
+          snapshot: snapshot,
+          itemBuilder: (context, job) => JobListTile(
+              job: job,
+              onTap: () => EditJobPage.show(context, job: job),
+            ),
+        );
       },
     );
   }
