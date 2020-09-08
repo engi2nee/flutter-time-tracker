@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter/app/home/models/Job.dart';
 import 'package:time_tracker_flutter/app/services/Database.dart';
 import 'package:time_tracker_flutter/widgets/PlatformAlertDialog.dart';
@@ -12,8 +11,11 @@ class EditJobPage extends StatefulWidget {
   final Database database;
   final Job job;
 
-  static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<Database>(context, listen: false);
+  static Future<void> show(
+    BuildContext context, {
+    Database database,
+    Job job,
+  }) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditJobPage(
@@ -58,7 +60,7 @@ class _EditJobPageState extends State<EditJobPage> {
       try {
         final jobs = await widget.database.jobsStream().first;
         final allNames = jobs.map((job) => job.name).toList();
-        if(widget.job !=null) {
+        if (widget.job != null) {
           allNames.remove(widget.job.name);
         }
         if (allNames.contains(_name)) {
